@@ -16,7 +16,7 @@ namespace rest_api.Controllers
             _temperatureService = temperatureService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<GetTemperatureDTO>>>> Get()
         {
             return Ok(await _temperatureService.GetAllTemperatures());

@@ -17,8 +17,8 @@ namespace rest_api.Controllers
             _characterService = characterService;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<GetCharacterDTO>>> Get()
+        [HttpGet]
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDTO>>>> Get()
         {
             return Ok(await _characterService.GetAllCharacters());
         }

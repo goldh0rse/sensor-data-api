@@ -60,7 +60,6 @@ namespace rest_api.Services.TemperatureService
             return serviceResponse;
         }
 
-
         public async Task<ServiceResponse<GetTemperatureDTO>> DeleteTemperatureById(int id)
         {
             var serviceResponse = new ServiceResponse<GetTemperatureDTO>();
