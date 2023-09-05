@@ -5,7 +5,12 @@ namespace rest_api.Services.TemperatureService
 {
     public interface ITemperatureService
     {
-        Task<ServiceResponse<List<GetTemperatureDTO>>> GetAllTemperatures();
+        Task<ServiceResponse<List<GetTemperatureDTO>>> GetAllTemperatures(
+            int page,
+            int pageSize,
+            string sortBy,
+            bool ascending
+        );
         Task<ServiceResponse<GetTemperatureDTO>> GetTemperatureById(int id);
         Task<ServiceResponse<GetTemperatureDTO>> AddTemperature(AddTemperatureDTO newTemperature);
         Task<ServiceResponse<GetTemperatureDTO>> DeleteTemperatureById(int id);
