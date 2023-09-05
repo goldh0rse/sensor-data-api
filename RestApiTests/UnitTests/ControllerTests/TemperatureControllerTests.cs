@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using rest_api.Controllers;
 using rest_api.DTO.Temperature;
 using rest_api.Models;
 using rest_api.Services.TemperatureService;
-using Xunit;
 
 namespace TemperatureApi.Tests
 {
@@ -24,14 +21,28 @@ namespace TemperatureApi.Tests
         [Fact]
         public async Task Get_ReturnsOkResult()
         {
-            _mockService.Setup(service => service.GetAllTemperatures())
+            _mockService.Setup(service => service.GetAllTemperatures(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(new ServiceResponse<List<GetTemperatureDTO>>
                 {
-                    Data = new List<GetTemperatureDTO>()
+                    Data = new List<GetTemperatureDTO>(),
+                    Success = true
                 });
 
             var result = await _controller.Get();
             Assert.IsType<OkObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task Get_ReturnsNotFoundResult_WhenNoData()
+        {
+            _mockService.Setup(service => service.GetAllTemperatures(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(new ServiceResponse<List<GetTemperatureDTO>>
+            {
+                Data = null,
+                Success = true
+            });
+
+            var result = await _controller.Get();
+            Assert.IsType<NotFoundObjectResult>(result.Result);
         }
 
         [Fact]
@@ -41,7 +52,8 @@ namespace TemperatureApi.Tests
             _mockService.Setup(service => service.GetTemperatureById(id))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Data = new GetTemperatureDTO()
+                    Data = new GetTemperatureDTO(),
+                    Success = true
                 });
 
             var result = await _controller.GetSingle(id);
@@ -55,7 +67,8 @@ namespace TemperatureApi.Tests
             _mockService.Setup(service => service.AddTemperature(newTemperature))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Data = new GetTemperatureDTO()
+                    Data = new GetTemperatureDTO(),
+                    Success = true
                 });
 
             var result = await _controller.CreateTemperature(newTemperature);
@@ -69,7 +82,8 @@ namespace TemperatureApi.Tests
             _mockService.Setup(service => service.DeleteTemperatureById(id))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Data = new GetTemperatureDTO()
+                    Data = new GetTemperatureDTO(),
+                    Success = true
                 });
 
             var result = await _controller.DeleteTemperature(id);
@@ -83,50 +97,52 @@ namespace TemperatureApi.Tests
             _mockService.Setup(service => service.DeleteTemperatureById(id))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Data = null
+                    Data = null,
+                    Success = true
                 });
 
             var result = await _controller.DeleteTemperature(id);
             Assert.IsType<NotFoundObjectResult>(result.Result);
         }
+
         [Fact]
-        public async Task Get_ReturnsNotFoundResult_WhenNoData()
+        public async Task Get_ReturnsBadRequestResult_WhenServiceFails()
         {
-            _mockService.Setup(service => service.GetAllTemperatures())
+            _mockService.Setup(service => service.GetAllTemperatures(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .ReturnsAsync(new ServiceResponse<List<GetTemperatureDTO>>
+                {
+                    Data = null,
+                    Success = false
+                });
+
+            var result = await _controller.Get();
+            Assert.IsType<BadRequestObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task GetSingle_ReturnsNotFoundResult_WhenInvalidId()
+        {
+            int id = 0; // Invalid id
+            _mockService.Setup(service => service.GetTemperatureById(id))
+                .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
                     Data = null,
                     Success = true
                 });
 
-            var result = await _controller.Get();
+            var result = await _controller.GetSingle(id);
             Assert.IsType<NotFoundObjectResult>(result.Result);
         }
 
         [Fact]
-        public async Task GetSingle_ReturnsNotFoundResult_ForInvalidId()
-        {
-            int invalidId = 99;
-            _mockService.Setup(service => service.GetTemperatureById(invalidId))
-                .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
-                {
-                    Success = true,
-                    Data = null
-                });
-
-            var result = await _controller.GetSingle(invalidId);
-            Assert.IsType<NotFoundObjectResult>(result.Result);
-        }
-
-        [Fact]
-        public async Task CreateTemperature_ReturnsBadRequestResult_WhenFailedToAdd()
+        public async Task CreateTemperature_ReturnsBadRequestResult_WhenServiceFails()
         {
             var newTemperature = new AddTemperatureDTO();
             _mockService.Setup(service => service.AddTemperature(newTemperature))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Success = false,
-                    Message = "Failed to add"
+                    Data = null,
+                    Success = false
                 });
 
             var result = await _controller.CreateTemperature(newTemperature);
@@ -134,14 +150,14 @@ namespace TemperatureApi.Tests
         }
 
         [Fact]
-        public async Task DeleteTemperature_ReturnsBadRequestResult_WhenServiceReportsError()
+        public async Task DeleteTemperature_ReturnsBadRequestResult_WhenServiceFails()
         {
             int id = 1;
             _mockService.Setup(service => service.DeleteTemperatureById(id))
                 .ReturnsAsync(new ServiceResponse<GetTemperatureDTO>
                 {
-                    Success = false,
-                    Message = "Failed to delete"
+                    Data = null,
+                    Success = false
                 });
 
             var result = await _controller.DeleteTemperature(id);

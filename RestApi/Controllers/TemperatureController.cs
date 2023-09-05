@@ -1,6 +1,4 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using rest_api.DTO.Temperature;
 using rest_api.Models;
 using rest_api.Services.TemperatureService;
@@ -19,9 +17,13 @@ namespace rest_api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<GetTemperatureDTO>>>> Get()
+        public async Task<ActionResult<ServiceResponse<List<GetTemperatureDTO>>>> Get(
+            int page = 1,
+            int pageSize = 10,
+            string sortBy = "DateTime",
+            bool ascending = true)
         {
-            var result = await _temperatureService.GetAllTemperatures();
+            var result = await _temperatureService.GetAllTemperatures(page, pageSize, sortBy, ascending);
             if (!result.Success)
             {
                 return BadRequest(new { message = "Bad Request" });
@@ -30,7 +32,7 @@ namespace rest_api.Controllers
             {
                 return NotFound(new { message = "No temperatures found" });
             }
-            return Ok(await _temperatureService.GetAllTemperatures());
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
@@ -41,7 +43,7 @@ namespace rest_api.Controllers
             {
                 return NotFound(new { Message = "Data not found" });
             }
-            return Ok(await _temperatureService.GetTemperatureById(id));
+            return Ok(result);
         }
 
         [HttpPost]
@@ -53,17 +55,16 @@ namespace rest_api.Controllers
                 return BadRequest(new { message = "Bad Request" });
             }
 
-            return Ok(await _temperatureService.AddTemperature(newTemperature));
+            return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetTemperatureDTO>>> DeleteTemperature(int id)
         {
             var response = await _temperatureService.DeleteTemperatureById(id);
             if (!response.Success)
             {
                 return BadRequest(new { Message = "Failed to delete" });
-
             }
             else if (response.Data is null)
             {
