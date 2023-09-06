@@ -1,0 +1,48 @@
+version: "3.1"
+
+services:
+  restapi:
+    build: .
+    image: sensor-restapi:latest
+    container_name: sensor-data-api
+    ports:
+      - "8080:80"
+      - "1337:1337"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: rpg-api-db
+    ports:
+      - "5432:5432"
+#   prometheus:
+#     image: prom/prometheus:latest
+#     container_name: prometheus
+#     restart: unless-stopped
+#     command:
+#       - "--config.file=/etc/prometheus/prometheus.yml"
+#     ports:
+#       - "9090:9090"
+#     volumes:
+#       - ./Docker/prometheus-storage:/etc/prometheus # for data
+#       - ./Docker/prometheus.yml:/etc/prometheus/prometheus.yml # for configuration
+
+#   grafana:
+#     image: grafana/grafana:latest
+#     container_name: grafana
+#     restart: unless-stopped
+#     environment:
+#       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN}
+#       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - ./Docker/grafana-storage:/etc/grafana/provisioning/datasources # for data
+
+# volumes:
+#   grafana-storage:
+#     driver: local
+#   prometheus-storage:
+#     driver: local

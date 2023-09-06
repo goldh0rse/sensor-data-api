@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApiTests", "RestApiTests\RestApiTests.csproj", "{88F5C27A-8845-44E3-9D58-2B8793F3E5DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rest_api", "RestApi\rest_api.csproj", "{0D5EE328-388F-48F6-B169-1066CE291755}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestApi", "RestApi\RestApi.csproj", "{0D5EE328-388F-48F6-B169-1066CE291755}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
