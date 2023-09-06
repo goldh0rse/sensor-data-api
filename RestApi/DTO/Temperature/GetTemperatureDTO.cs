@@ -1,5 +1,5 @@
 
-namespace rest_api.DTO.Temperature
+namespace RestApi.DTO.Temperature
 {
     public class GetTemperatureDTO
     {

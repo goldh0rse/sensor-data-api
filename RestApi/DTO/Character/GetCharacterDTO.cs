@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rest_api.DTO.Character
+namespace RestApi.DTO.Character
 {
     public class GetCharacterDTO
     {

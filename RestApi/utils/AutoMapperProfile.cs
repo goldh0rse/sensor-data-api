@@ -1,9 +1,9 @@
 using AutoMapper;
-using rest_api.DTO.Character;
-using rest_api.DTO.Temperature;
-using rest_api.Models;
+using RestApi.DTO.Character;
+using RestApi.DTO.Temperature;
+using RestApi.Models;
 
-namespace rest_api
+namespace RestApi
 {
     public class AutoMapperProfile : Profile
     {

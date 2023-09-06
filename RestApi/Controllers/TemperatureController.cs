@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using rest_api.DTO.Temperature;
-using rest_api.Models;
-using rest_api.Services.TemperatureService;
+using RestApi.DTO.Temperature;
+using RestApi.Models;
+using RestApi.Services.TemperatureService;
 
-namespace rest_api.Controllers
+namespace RestApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]

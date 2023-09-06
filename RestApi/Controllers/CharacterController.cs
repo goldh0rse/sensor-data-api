@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using rest_api.DTO.Character;
-using rest_api.Models;
-using rest_api.Services.CharacterService;
+using RestApi.DTO.Character;
+using RestApi.Models;
+using RestApi.Services.CharacterService;
 
-namespace rest_api.Controllers
+namespace RestApi.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]

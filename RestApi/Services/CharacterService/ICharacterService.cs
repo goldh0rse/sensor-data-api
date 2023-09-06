@@ -1,7 +1,7 @@
-using rest_api.DTO.Character;
-using rest_api.Models;
+using RestApi.DTO.Character;
+using RestApi.Models;
 
-namespace rest_api.Services.CharacterService
+namespace RestApi.Services.CharacterService
 {
     public interface ICharacterService
     {

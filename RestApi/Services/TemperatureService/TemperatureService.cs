@@ -1,11 +1,11 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using rest_api.Data;
-using rest_api.DTO.Temperature;
-using rest_api.Models;
+using RestApi.Data;
+using RestApi.DTO.Temperature;
+using RestApi.Models;
 using RestApi.Extensions;
 
-namespace rest_api.Services.TemperatureService
+namespace RestApi.Services.TemperatureService
 {
     public class TemperatureService : ITemperatureService
     {

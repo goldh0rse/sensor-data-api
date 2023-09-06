@@ -1,7 +1,7 @@
-using rest_api.DTO.Temperature;
-using rest_api.Models;
+using RestApi.DTO.Temperature;
+using RestApi.Models;
 
-namespace rest_api.Services.TemperatureService
+namespace RestApi.Services.TemperatureService
 {
     public interface ITemperatureService
     {

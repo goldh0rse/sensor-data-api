@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using rest_api.Data;
+using RestApi.Data;
 
 #nullable disable
 
-namespace rest_api.Migrations
+namespace RestApi.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20230904071720_Added temperature")]
@@ -25,7 +25,7 @@ namespace rest_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("rest_api.Models.Character", b =>
+            modelBuilder.Entity("RestApi.Models.Character", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -57,7 +57,7 @@ namespace rest_api.Migrations
                     b.ToTable("Characters");
                 });
 
-            modelBuilder.Entity("rest_api.Models.Temperature", b =>
+            modelBuilder.Entity("RestApi.Models.Temperature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

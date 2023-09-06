@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using rest_api.Controllers;
-using rest_api.DTO.Temperature;
-using rest_api.Models;
-using rest_api.Services.TemperatureService;
+using RestApi.Controllers;
+using RestApi.DTO.Temperature;
+using RestApi.Models;
+using RestApi.Services.TemperatureService;
 
 namespace TemperatureApi.Tests
 {

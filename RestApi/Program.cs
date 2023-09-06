@@ -1,8 +1,8 @@
 // Import necessary namespaces
 using Microsoft.EntityFrameworkCore;
-using rest_api.Data;
-using rest_api.Services.CharacterService;
-using rest_api.Services.TemperatureService;
+using RestApi.Data;
+using RestApi.Services.CharacterService;
+using RestApi.Services.TemperatureService;
 
 // Initialize a new WebApplication builder
 var builder = WebApplication.CreateBuilder(args);

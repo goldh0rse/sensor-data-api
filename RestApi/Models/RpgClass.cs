@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace rest_api
+namespace RestApi
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum RpgClass

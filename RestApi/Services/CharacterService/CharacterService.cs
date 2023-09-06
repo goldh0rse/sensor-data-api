@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using rest_api.Data;
-using rest_api.DTO.Character;
-using rest_api.Models;
+using RestApi.Data;
+using RestApi.DTO.Character;
+using RestApi.Models;
 
-namespace rest_api.Services.CharacterService
+namespace RestApi.Services.CharacterService
 {
 
     public class CharacterService : ICharacterService
