@@ -3,6 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using RestApi.Data;
 using RestApi.Services.CharacterService;
 using RestApi.Services.TemperatureService;
+using Prometheus;
+
+// Suppress some default metrics to make the output cleaner, so the exemplars are easier to see.
+// Metrics.SuppressDefaultMetrics(new SuppressDefaultMetricOptions
+// {
+//     SuppressEventCounters = true,
+//     SuppressMeters = true,
+//     SuppressProcessMetrics = true
+// });
 
 // Initialize a new WebApplication builder
 var builder = WebApplication.CreateBuilder(args);
@@ -30,8 +39,22 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
 
+// Start the metrics exporter as a background service.
+// Open http://localhost:1234/metrics to see the metrics.
+//
+// Metrics published:
+// * built-in process metrics giving basic information about the .NET runtime (enabled by default)
+// * metrics from .NET Event Counters (enabled by default, updated every 10 seconds)
+// * metrics from .NET Meters (enabled by default)
+// * metrics about requests handled by the web app (configured below)
+builder.Services.AddMetricServer(options =>
+{
+    options.Port = 1234;
+});
+
 // Build the application
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline
 
@@ -45,11 +68,19 @@ if (app.Environment.IsDevelopment())
 // Enable HTTPS redirection
 app.UseHttpsRedirection();
 
+// Capture metrics about all received HTTP requests.
+app.UseHttpMetrics();
+
+// Setup routing middleware, very important
+app.UseRouting();
+
 // Enable the authorization middleware
 app.UseAuthorization();
 
 // Map controllers for handling routes
 app.MapControllers();
+
+// app.MapMetrics();
 
 // Run the application
 app.Run();

@@ -1,4 +1,4 @@
-version: "3.1"
+version: '3.1'
 
 services:
   restapi:
@@ -6,8 +6,7 @@ services:
     image: sensor-restapi:latest
     container_name: sensor-api
     ports:
-      - "8080:80"
-      - "1337:1337"
+      - '8080:80'
     networks:
       - private
 
@@ -30,9 +29,9 @@ services:
     container_name: prometheus
     restart: unless-stopped
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+      - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
-      - "9090:9090"
+      - '9090:9090'
     volumes:
       - prometheus-data:/prometheus # for data
       - prometheus-storage:/etc/prometheus # for configuration
@@ -47,7 +46,7 @@ services:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - grafana-storage:/etc/grafana/provisioning/datasources # for data
     networks:
@@ -61,27 +60,27 @@ volumes:
   grafana-storage:
     driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "${PWD}/Docker/grafana-storage"
+      type: 'none'
+      o: 'bind'
+      device: '${PWD}/Docker/grafana-storage'
 
   prometheus-storage:
     driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "${PWD}/Docker/prometheus/prometheus-storage"
+      type: 'none'
+      o: 'bind'
+      device: '${PWD}/Docker/prometheus/prometheus-storage'
 
   prometheus-data:
     driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "${PWD}/Docker/prometheus/prometheus-data"
+      type: 'none'
+      o: 'bind'
+      device: '${PWD}/Docker/prometheus/prometheus-data'
 
   db-storage:
     driver: local
     driver_opts:
-      type: "none"
-      o: "bind"
-      device: "${PWD}/Docker/db-storage"
+      type: 'none'
+      o: 'bind'
+      device: '${PWD}/Docker/db-storage'
