@@ -30,8 +30,6 @@ services:
     restart: unless-stopped
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    # ports:
-    #   - '9090:9090'
     volumes:
       - prometheus-data:/prometheus # for data
       - prometheus-storage:/etc/prometheus # for configuration
