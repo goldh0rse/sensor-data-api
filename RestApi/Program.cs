@@ -80,7 +80,5 @@ app.UseAuthorization();
 // Map controllers for handling routes
 app.MapControllers();
 
-// app.MapMetrics();
-
 // Run the application
 app.Run();
