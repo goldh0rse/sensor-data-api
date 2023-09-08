@@ -93,9 +93,6 @@ namespace RestApi.Services.TemperatureService
                     throw new Exception("Mapping failed.");
                 }
 
-                // Generate a DateTime variable and add it to the temperature object
-                temperature.DateTime = DateTime.UtcNow;
-
                 // Add the Temperature to the DbContext
                 await _context.Temperatures.AddAsync(temperature);
 
@@ -192,7 +189,7 @@ namespace RestApi.Services.TemperatureService
             {
                 // Fetch temperatures within the DateTime span
                 var dbTemperatures = await _context.Temperatures
-                    .Where(t => t.DateTime >= from && t.DateTime <= to)
+                    .Where(t => t.CreatedAt >= from && t.CreatedAt <= to)
                     .ToListAsync();
 
                 if (dbTemperatures == null || !dbTemperatures.Any())

@@ -1,7 +1,6 @@
 // Import necessary namespaces
 using Microsoft.EntityFrameworkCore;
 using RestApi.Data;
-using RestApi.Services.CharacterService;
 using RestApi.Services.TemperatureService;
 using Prometheus;
 
@@ -36,7 +35,6 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Register custom services for dependency injection
 // Here, implementations for ICharacterService and ITemperatureService are provided
-builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
 
 
