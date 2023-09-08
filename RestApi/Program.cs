@@ -39,6 +39,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
 
+
 // Start the metrics exporter as a background service.
 // Open http://localhost:1234/metrics to see the metrics.
 //

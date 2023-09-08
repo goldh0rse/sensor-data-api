@@ -3,7 +3,7 @@ import json
 import time
 
 # URL for the API endpoint
-url = "http://localhost:5057/api/v1/Temperature"
+url = "http://localhost:8080/api/v1/Temperature"
 
 # Headers
 headers = {
@@ -25,5 +25,6 @@ if __name__ == '__main__':
             id += 1
         else:
             print("\nError sending request")
+            print(response)
             exit(-1)
         time.sleep(5)

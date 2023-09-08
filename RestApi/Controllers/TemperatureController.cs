@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Prometheus;
 using RestApi.DTO.Temperature;
 using RestApi.Models;
 using RestApi.Services.TemperatureService;
@@ -10,6 +11,11 @@ namespace RestApi.Controllers
     public class TemperatureController : ControllerBase
     {
         private readonly ITemperatureService _temperatureService;
+
+        // Assuming the gauge metric is globally accessible.
+        // You could also inject this via the constructor if it's registered in your DI container.
+        private static readonly Gauge _temperatureGauge =
+            Metrics.CreateGauge("app_temperature", "Temperature readings");
 
         public TemperatureController(ITemperatureService temperatureService)
         {
@@ -54,6 +60,13 @@ namespace RestApi.Controllers
             {
                 return BadRequest(new { message = "Bad Request" });
             }
+
+            if (result.Data is not null)
+            {
+                // Update the Prometheus gauge metric
+                _temperatureGauge.Set(result.Data.Temp);
+            }
+
 
             return Ok(result);
         }
