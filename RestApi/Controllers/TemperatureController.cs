@@ -26,12 +26,13 @@ namespace RestApi.Controllers
         public async Task<ActionResult<ServiceResponse<List<GetTemperatureDTO>>>> Get(
             int page = 1,
             int pageSize = 10,
-            string sortBy = "DateTime",
+            string sortBy = "CreatedAt",
             bool ascending = true)
         {
             var result = await _temperatureService.GetAllTemperatures(page, pageSize, sortBy, ascending);
             if (!result.Success)
             {
+                System.Console.WriteLine(result.Message);
                 return BadRequest(new { message = "Bad Request" });
             }
             else if (result.Data is null)

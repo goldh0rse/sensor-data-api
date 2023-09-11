@@ -21,7 +21,7 @@ namespace RestApi.Services.TemperatureService
         public async Task<ServiceResponse<List<GetTemperatureDTO>>> GetAllTemperatures(
             int page = 1,
             int pageSize = 10,
-            string sortBy = "DateTime",
+            string sortBy = "CreatedAt",
             bool ascending = true)
         {
             var serviceResponse = new ServiceResponse<List<GetTemperatureDTO>>();
