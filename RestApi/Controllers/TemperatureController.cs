@@ -64,7 +64,6 @@ namespace RestApi.Controllers
 
             if (result.Data is not null)
             {
-                // Update the Prometheus gauge metric
                 _temperatureGauge.Set(result.Data.Temp);
             }
 

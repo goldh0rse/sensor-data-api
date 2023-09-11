@@ -66,7 +66,6 @@ namespace RestApi.Services.TemperatureService
             return serviceResponse;
         }
 
-
         public async Task<ServiceResponse<GetTemperatureDTO>> AddTemperature(AddTemperatureDTO newTemperature)
         {
             var serviceResponse = new ServiceResponse<GetTemperatureDTO>();
@@ -172,7 +171,6 @@ namespace RestApi.Services.TemperatureService
             return serviceResponse;
         }
 
-
         public async Task<ServiceResponse<List<GetTemperatureDTO>>> GetTemperaturesByDatetimeSpan(DateTime from, DateTime to)
         {
             var serviceResponse = new ServiceResponse<List<GetTemperatureDTO>>();
@@ -209,7 +207,6 @@ namespace RestApi.Services.TemperatureService
             }
             return serviceResponse;
         }
-
 
         public async Task<ServiceResponse<GetTemperatureDTO>> GetTemperatureById(int id)
         {
