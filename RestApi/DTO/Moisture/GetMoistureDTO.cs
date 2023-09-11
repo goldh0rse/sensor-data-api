@@ -1,9 +1,9 @@
 namespace RestApi.DTO.Moisture
 {
-    public class GetMoisture
+    public class GetMoistureDTO
     {
         public int Id { get; set; }
-        public double Moisture { get; set; }
+        public double MoistureLvl { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
