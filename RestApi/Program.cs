@@ -3,60 +3,15 @@ using RestApi.Services.TemperatureService;
 using Prometheus;
 using RestApi.Services.MoistureService;
 using RestApi.Data;
+using RestApi.utils;
 
-// Setup local environments
-string path = @"..\.env";
-if (File.Exists(path))
+// Read the ASPNETCORE_ENVIRONMENT variable to determine the environment
+string environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
+if (environmentName == "Development")
 {
-    string[] lines = File.ReadAllLines(path);
-    HashSet<string> keys = new();
-
-    foreach (var line in lines)
-    {
-        // Skip comments and empty lines
-        if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#"))
-        {
-            continue;
-        }
-
-        var parts = line.Split(
-            '=',
-            StringSplitOptions.RemoveEmptyEntries);
-
-        // Check if line format is correct
-        if (parts.Length != 2)
-        {
-            Console.WriteLine($"Skipping invalid line: {line}");
-            continue;
-        }
-
-        string key = parts[0].Trim();
-        string value = parts[1].Trim();
-
-        // Check for empty keys
-        if (string.IsNullOrEmpty(key))
-        {
-            Console.WriteLine($"Skipping invalid key in line: {line}");
-            continue;
-        }
-
-        // Check for duplicate keys
-        if (keys.Contains(key))
-        {
-            Console.WriteLine($"Duplicate key {key} found. Skipping...");
-            continue;
-        }
-        keys.Add(key);
-
-        // Set the environment variable
-        Environment.SetEnvironmentVariable(key, value);
-    }
+    EnvLoader.LoadEnvironment(@"..\.env");
 }
-else
-{
-    Console.WriteLine("No environment file found!");
-    return;
-}
+
 
 // Suppress some default metrics to make the output cleaner, so the exemplars are easier to see.
 // Metrics.SuppressDefaultMetrics(new SuppressDefaultMetricOptions
@@ -85,8 +40,6 @@ connectionString = connectionString
                         .Replace("{PASSWORD}", password);
 
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(connectionString));
-// builder.Services.AddDbContext<DataContext>(options =>
-//     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register the controllers present in the assembly for handling HTTP requests
 builder.Services.AddControllers();
@@ -112,7 +65,7 @@ builder.Services.AddScoped<IMoistureService, MoistureService>();
 // * metrics about requests handled by the web app (configured below)
 builder.Services.AddMetricServer(options =>
 {
-    options.Port = 1234;
+    options.Port = ushort.Parse(Environment.GetEnvironmentVariable("METRICS_PORT")!);
 });
 
 // Build the application

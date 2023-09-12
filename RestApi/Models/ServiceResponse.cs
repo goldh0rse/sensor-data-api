@@ -1,4 +1,3 @@
-
 namespace RestApi.Models
 {
     public class ServiceResponse<T>
