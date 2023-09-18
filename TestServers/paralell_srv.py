@@ -5,7 +5,8 @@ import time
 
 # URL for the API endpoints
 tempUrl = "http://localhost:8080/api/v1/Temperature"
-moistureUrl = "http://localhost:8080/api/v1/Moisture"
+soilUrl = "http://localhost:8080/api/v1/Soil"
+lightUrl = "http://localhost:8080/api/v1/Light"
 
 # Headers
 headers = {
@@ -80,7 +81,7 @@ def sendMoisture(queue):
 
         # Send the POST request
         response = requests.post(
-            moistureUrl, json=payloads[idx], headers=headers)
+            soilUrl, json=payloads[idx], headers=headers)
 
         if response.status_code == 200:
             id += 1
