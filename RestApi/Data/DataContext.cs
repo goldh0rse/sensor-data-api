@@ -6,7 +6,7 @@ namespace RestApi.Data
     public class DataContext : DbContext
     {
         public DbSet<Temperature> Temperatures => Set<Temperature>();
-        public DbSet<Moisture> MoistureLvls => Set<Moisture>();
+        public DbSet<Soil> SoilReadings => Set<Soil>();
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
 
@@ -18,7 +18,7 @@ namespace RestApi.Data
                 .Property(t => t.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            modelBuilder.Entity<Moisture>()
+            modelBuilder.Entity<Soil>()
                 .Property(m => m.CreatedAt)
                 .HasDefaultValue("CURRENT_TIMESTAMP");
         }

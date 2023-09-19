@@ -1,5 +1,5 @@
 using AutoMapper;
-using RestApi.DTO.Moisture;
+using RestApi.DTO.Soil;
 using RestApi.DTO.Temperature;
 using RestApi.Models;
 
@@ -11,8 +11,8 @@ namespace RestApi
         {
             CreateMap<Temperature, GetTemperatureDTO>();
             CreateMap<AddTemperatureDTO, Temperature>();
-            CreateMap<Moisture, GetMoistureDTO>();
-            CreateMap<AddMoistureDTO, Moisture>();
+            CreateMap<Soil, GetSoilDTO>();
+            CreateMap<AddSoilDTO, Soil>();
         }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using RestApi.Services.TemperatureService;
 using Prometheus;
-using RestApi.Services.MoistureService;
+using RestApi.Services.SoilService;
 using RestApi.Data;
 using RestApi.utils;
 
@@ -9,7 +9,16 @@ using RestApi.utils;
 string environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
 if (environmentName == "Development")
 {
-    EnvLoader.LoadEnvironment(@"..\.env");
+    var currentDirectory = Directory.GetCurrentDirectory();
+    if (File.Exists(Path.Combine(currentDirectory, "sensor-data-api.sln")))
+    {
+        EnvLoader.LoadEnvironment(Path.Combine(currentDirectory, @".env"));
+    }
+    else
+    {
+        EnvLoader.LoadEnvironment(Path.Combine(currentDirectory, @"../.env"));
+    }
+
 }
 
 
@@ -53,7 +62,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Register custom services for dependency injection
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
-builder.Services.AddScoped<IMoistureService, MoistureService>();
+builder.Services.AddScoped<ISoilService, MoistureService>();
 
 // Start the metrics exporter as a background service.
 // Open http://localhost:1234/metrics to see the metrics.

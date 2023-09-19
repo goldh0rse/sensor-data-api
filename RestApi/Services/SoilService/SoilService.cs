@@ -1,13 +1,15 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RestApi.Data;
-using RestApi.DTO.Moisture;
+using RestApi.DTO.Soil;
 using RestApi.Extensions;
 using RestApi.Models;
 
-namespace RestApi.Services.MoistureService
+// TODO: Fix moisture labeling
+
+namespace RestApi.Services.SoilService
 {
-    public class MoistureService : IMoistureService
+    public class MoistureService : ISoilService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;
@@ -18,9 +20,9 @@ namespace RestApi.Services.MoistureService
             this._context = context;
         }
 
-        public async Task<ServiceResponse<GetMoistureDTO>> AddMoistureLvl(AddMoistureDTO newMoistureLvl)
+        public async Task<ServiceResponse<GetSoilDTO>> AddSoilReading(AddSoilDTO newMoistureLvl)
         {
-            var serviceResponse = new ServiceResponse<GetMoistureDTO>();
+            ServiceResponse<GetSoilDTO>? serviceResponse = new ServiceResponse<GetSoilDTO>();
 
             // Validate the incoming data
             if (newMoistureLvl == null)
@@ -36,16 +38,10 @@ namespace RestApi.Services.MoistureService
             try
             {
                 // Map the DTO to the database model
-                var moistureLvl = _mapper.Map<Moisture>(newMoistureLvl);
-
-                // Validate the mapped object
-                if (moistureLvl == null)
-                {
-                    throw new Exception("Mapping failed.");
-                }
+                Soil? moistureLvl = _mapper.Map<Soil>(source: newMoistureLvl) ?? throw new Exception(message: "Mapping failed.");
 
                 // Add the Temperature to the DbContext
-                await _context.MoistureLvls.AddAsync(moistureLvl);
+                await _context.SoilReadings.AddAsync(entity: moistureLvl);
 
                 // Save the changes to the database
                 await _context.SaveChangesAsync();
@@ -54,15 +50,15 @@ namespace RestApi.Services.MoistureService
                 await transaction.CommitAsync();
 
                 // Fetch the uploaded temperature
-                var dbMoistureLvl = await _context.MoistureLvls.FirstOrDefaultAsync(m => m.Id == moistureLvl.Id);
+                Soil? dbMoistureLvl = await _context.SoilReadings.FirstOrDefaultAsync(predicate: m => m.Id == moistureLvl.Id);
 
                 // Map the database models to DTOs
-                serviceResponse.Data = _mapper.Map<GetMoistureDTO>(dbMoistureLvl);
+                serviceResponse.Data = _mapper.Map<GetSoilDTO>(source: dbMoistureLvl);
 
                 // Validate the returned data
                 if (serviceResponse.Data == null)
                 {
-                    throw new Exception("Fetching saved data failed.");
+                    throw new Exception(message: "Fetching saved data failed.");
                 }
             }
             catch (Exception ex)
@@ -75,15 +71,15 @@ namespace RestApi.Services.MoistureService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetMoistureDTO>> DeleteMoistureById(int id)
+        public async Task<ServiceResponse<GetSoilDTO>> DeleteSoilReadingById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetMoistureDTO>();
+            var serviceResponse = new ServiceResponse<GetSoilDTO>();
 
             // Validate the incoming ID
             if (id <= 0)
             {
                 serviceResponse.Success = false;
-                serviceResponse.Message = "Invalid temperature ID.";
+                serviceResponse.Message = "Invalid ID.";
                 return serviceResponse;
             }
 
@@ -93,7 +89,7 @@ namespace RestApi.Services.MoistureService
             try
             {
                 // Fetch the temperature from the database
-                var dbMoistureLvl = await _context.MoistureLvls.FirstOrDefaultAsync(m => m.Id == id);
+                var dbMoistureLvl = await _context.SoilReadings.FirstOrDefaultAsync(m => m.Id == id);
 
                 // If the temperature doesn't exist, throw an exception
                 if (dbMoistureLvl is null)
@@ -102,7 +98,7 @@ namespace RestApi.Services.MoistureService
                 }
 
                 // Remove the Temperature from the DbContext
-                _context.MoistureLvls.Remove(dbMoistureLvl);
+                _context.SoilReadings.Remove(dbMoistureLvl);
 
                 // Save changes to the database
                 await _context.SaveChangesAsync();
@@ -111,7 +107,7 @@ namespace RestApi.Services.MoistureService
                 await transaction.CommitAsync();
 
                 // Map the deleted database entity to the DTO
-                serviceResponse.Data = _mapper.Map<GetMoistureDTO>(dbMoistureLvl);
+                serviceResponse.Data = _mapper.Map<GetSoilDTO>(dbMoistureLvl);
             }
             catch (Exception ex)
             {
@@ -123,9 +119,9 @@ namespace RestApi.Services.MoistureService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetMoistureDTO>>> GetAllMoistureLvls(int page, int pageSize, string sortBy, bool ascending)
+        public async Task<ServiceResponse<List<GetSoilDTO>>> GetAllSoilReadings(int page, int pageSize, string sortBy, bool ascending)
         {
-            var serviceResponse = new ServiceResponse<List<GetMoistureDTO>>();
+            var serviceResponse = new ServiceResponse<List<GetSoilDTO>>();
 
             try
             {
@@ -139,7 +135,7 @@ namespace RestApi.Services.MoistureService
                 }
 
                 // Pagination and sorting
-                var moistureLvls = _context.MoistureLvls
+                var moistureLvls = _context.SoilReadings
                     .OrderByPropertyName(sortBy, ascending)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize);
@@ -154,7 +150,7 @@ namespace RestApi.Services.MoistureService
                 }
 
                 // Map and set data
-                serviceResponse.Data = dbMoistureLvls.Select(t => _mapper.Map<GetMoistureDTO>(t)).ToList();
+                serviceResponse.Data = dbMoistureLvls.Select(t => _mapper.Map<GetSoilDTO>(t)).ToList();
                 serviceResponse.Success = true;
             }
             catch (Exception ex)
@@ -167,9 +163,9 @@ namespace RestApi.Services.MoistureService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<List<GetMoistureDTO>>> GetMoistureByDatetimeSpan(DateTime from, DateTime to)
+        public async Task<ServiceResponse<List<GetSoilDTO>>> GetSoilReadingByDatetimeSpan(DateTime from, DateTime to)
         {
-            var serviceResponse = new ServiceResponse<List<GetMoistureDTO>>();
+            ServiceResponse<List<GetSoilDTO>>? serviceResponse = new ServiceResponse<List<GetSoilDTO>>();
 
             // Validate input DateTime range
             if (from > to)
@@ -182,18 +178,18 @@ namespace RestApi.Services.MoistureService
             try
             {
                 // Fetch temperatures within the DateTime span
-                var dbMoistureLvls = await _context.MoistureLvls
+                List<Soil>? dbMoistureLvls = await _context.SoilReadings
                     .Where(m => m.CreatedAt >= from && m.CreatedAt <= to)
                     .ToListAsync();
 
                 if (dbMoistureLvls == null || !dbMoistureLvls.Any())
                 {
-                    serviceResponse.Data = new List<GetMoistureDTO>();  // Return empty list instead of throwing exception
+                    serviceResponse.Data = new List<GetSoilDTO>();  // Return empty list instead of throwing exception
                     serviceResponse.Message = "No moisture records found for the given time span.";
                 }
                 else
                 {
-                    serviceResponse.Data = dbMoistureLvls.Select(t => _mapper.Map<GetMoistureDTO>(t)).ToList();
+                    serviceResponse.Data = dbMoistureLvls.Select(selector: _mapper.Map<GetSoilDTO>).ToList();
                 }
             }
             catch (Exception ex)
@@ -204,14 +200,14 @@ namespace RestApi.Services.MoistureService
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<GetMoistureDTO>> GetMoistureLvlById(int id)
+        public async Task<ServiceResponse<GetSoilDTO>> GetSoilReadingById(int id)
         {
-            var serviceResponse = new ServiceResponse<GetMoistureDTO>();
+            var serviceResponse = new ServiceResponse<GetSoilDTO>();
 
             try
             {
                 // Fetch the temperature by ID
-                var dbTemperature = await _context.MoistureLvls.FindAsync(id);
+                var dbTemperature = await _context.SoilReadings.FindAsync(id);
 
                 // Check if the temperature exists
                 if (dbTemperature == null)
@@ -222,7 +218,7 @@ namespace RestApi.Services.MoistureService
                 }
 
                 // Map the database entity to the DTO
-                serviceResponse.Data = _mapper.Map<GetMoistureDTO>(dbTemperature);
+                serviceResponse.Data = _mapper.Map<GetSoilDTO>(dbTemperature);
                 serviceResponse.Success = true;
             }
             catch (Exception ex)
