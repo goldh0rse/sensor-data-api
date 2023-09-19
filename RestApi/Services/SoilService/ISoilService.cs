@@ -2,7 +2,7 @@ using RestApi.DTO.Soil;
 using RestApi.Models;
 
 namespace RestApi.Services.SoilService {
-    public interface ISoilService {
+    public interface ILightService {
         Task<ServiceResponse<List<GetSoilDTO>>> GetAllSoilReadings(
             int page,
             int pageSize,

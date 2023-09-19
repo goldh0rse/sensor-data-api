@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestApi.Models
-{
+namespace RestApi.Models {
     [Table("temperatures")]
-    public class Temperature
-    {
+    public class Temperature {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
@@ -14,7 +12,7 @@ namespace RestApi.Models
 
         public double Temp { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
     }

@@ -1,11 +1,14 @@
 import logging
+from time import sleep
 import requests
 import datetime
 
+port = 5057
+
 # URL for the API endpoints
-tempUrl = "http://localhost:8080/api/v1/Temperature"
-soilUrl = "http://localhost:8080/api/v1/Soil"
-lightUrl = "http://localhost:8080/api/v1/Light"
+tempUrl = f'http://localhost:{port}/api/v1/Temperature'
+soilUrl = f'http://localhost:{port}/api/v1/Soil'
+lightUrl = f'http://localhost:{port}/api/v1/Light'
 
 # Headers
 headers = {
@@ -14,7 +17,8 @@ headers = {
 
 
 def sendTemperature(dt, temp):
-    payload = {"datetime": dt, "Temp": temp}
+    # payload = {"datetime": dt, "Temp": temp}
+    payload = { "temp": temp }
 
     response = requests.post(tempUrl, json=payload, headers=headers)
     if response.status_code == 200:
@@ -25,8 +29,9 @@ def sendTemperature(dt, temp):
 
 
 def sendSoil(dt, temp, moisture):
-    payload = {"datetime": dt, "soil_temperature": temp,
-               "soil_moisture": moisture}
+    # payload = {"datetime": dt, "soil_temperature": temp,
+    #            "soil_moisture": moisture}
+    payload = {"soil_temperature": temp, "soil_moisture": moisture}
 
     response = requests.post(soilUrl, json=payload, headers=headers)
     if response.status_code == 200:
@@ -37,7 +42,8 @@ def sendSoil(dt, temp, moisture):
 
 
 def sendLight(dt, lux):
-    payload = {"datetime": dt, "lux": lux}
+    # payload = {"datetime": dt, "lux": lux}
+    payload = { "lux": lux }
 
     response = requests.post(lightUrl, json=payload, headers=headers)
     if response.status_code == 200:
@@ -57,6 +63,7 @@ if __name__ == '__main__':
         dt = datetime.datetime.now()
         idx = id % 15
         sendTemperature(dt, temps[idx])
-        sendSoil(dt, temps[idx], soils[idx])
+        # sendSoil(dt, temps[idx], soils[idx])
         # sendLight(dt, lights[idx])
         id += 1
+        sleep(1)

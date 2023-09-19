@@ -10,12 +10,12 @@ namespace RestApi.Controllers
     [Route("api/v1/[controller]")]
     public class SoilController : ControllerBase
     {
-        private readonly ISoilService _soilService;
+        private readonly ILightService _soilService;
         private static readonly Gauge _soilMoistureGauge =
                     Metrics.CreateGauge(name: "app_soil_moisture", help: "Soil Moisture readings");
         private static readonly Gauge _soilTemperatureGauge =
                         Metrics.CreateGauge(name: "app_soil_temperature", help: "Soil Temperature readings");
-        public SoilController(ISoilService soilService)
+        public SoilController(ILightService soilService)
         {
             this._soilService = soilService;
         }

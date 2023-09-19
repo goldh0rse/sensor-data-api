@@ -15,7 +15,7 @@ namespace RestApi.Models {
         [Column("soil_temperature")]
         public double Temperature { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        // [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
     }

@@ -9,7 +9,7 @@ using RestApi.Models;
 
 namespace RestApi.Services.SoilService
 {
-    public class MoistureService : ISoilService
+    public class MoistureService : ILightService
     {
         private readonly IMapper _mapper;
         private readonly DataContext _context;

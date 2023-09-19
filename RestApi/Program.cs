@@ -61,8 +61,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // Register custom services for dependency injection
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
-builder.Services.AddScoped<ISoilService, MoistureService>();
-builder.Services.AddScoped<ILightService, LightService>();
+builder.Services.AddScoped<RestApi.Services.SoilService.ILightService, MoistureService>();
+builder.Services.AddScoped<RestApi.Services.LightService.ILightService, LightService>();
 
 // Start the metrics exporter as a background service.
 // Open http://localhost:1234/metrics to see the metrics.
