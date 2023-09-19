@@ -12,6 +12,6 @@ namespace RestApi.Services.LightService {
         Task<ServiceResponse<GetLightDTO>> GetLightReadingById(int id);
         Task<ServiceResponse<GetLightDTO>> AddLightReading(AddLightDTO newLightReading);
         Task<ServiceResponse<GetLightDTO>> DeleteLightReadingById(int id);
-        Task<ServiceResponse<List<GetLightDTO>>> GetSoilReadingByDatetimeSpan(DateTime from, DateTime to);
+        Task<ServiceResponse<List<GetLightDTO>>> GetLightReadingByDatetimeSpan(DateTime from, DateTime to);
     }
 }

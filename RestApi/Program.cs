@@ -4,6 +4,7 @@ using Prometheus;
 using RestApi.Services.SoilService;
 using RestApi.Data;
 using RestApi.utils;
+using RestApi.Services.LightService;
 
 // Read the ASPNETCORE_ENVIRONMENT variable to determine the environment
 string environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")!;
@@ -61,6 +62,7 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 // Register custom services for dependency injection
 builder.Services.AddScoped<ITemperatureService, TemperatureService>();
 builder.Services.AddScoped<ISoilService, MoistureService>();
+builder.Services.AddScoped<ILightService, LightService>();
 
 // Start the metrics exporter as a background service.
 // Open http://localhost:1234/metrics to see the metrics.

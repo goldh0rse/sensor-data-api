@@ -20,7 +20,7 @@ namespace RestApi.Services.SoilService
         }
 
         public async Task<ServiceResponse<GetSoilDTO>> AddSoilReading(AddSoilDTO newMoistureLvl) {
-            ServiceResponse<GetSoilDTO>? serviceResponse = new ServiceResponse<GetSoilDTO>();
+            ServiceResponse<GetSoilDTO>? serviceResponse = new();
 
             // Validate the incoming data
             if (newMoistureLvl == null) {
@@ -145,7 +145,7 @@ namespace RestApi.Services.SoilService
         }
 
         public async Task<ServiceResponse<List<GetSoilDTO>>> GetSoilReadingByDatetimeSpan(DateTime from, DateTime to) {
-            ServiceResponse<List<GetSoilDTO>>? serviceResponse = new ServiceResponse<List<GetSoilDTO>>();
+            ServiceResponse<List<GetSoilDTO>>? serviceResponse = new();
 
             // Validate input DateTime range
             if (from > to) {
