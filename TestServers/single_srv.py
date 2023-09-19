@@ -58,5 +58,5 @@ if __name__ == '__main__':
         idx = id % 15
         sendTemperature(dt, temps[idx])
         sendSoil(dt, temps[idx], soils[idx])
-        sendLight(dt, lights[idx])
+        # sendLight(dt, lights[idx])
         id += 1

@@ -53,6 +53,18 @@ namespace RestApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("Span")]
+        public async Task<ActionResult<ServiceResponse<List<GetTemperatureDTO>>>> GetRecordsBetweenDates(
+            [FromQuery] DateTime startDate, 
+            [FromQuery] DateTime endDate)
+        {
+            var serviceResponse = await _temperatureService.GetTemperaturesByDatetimeSpan(startDate, endDate);
+            if(!serviceResponse.Success){
+                return BadRequest( new { Message = "Bad Request"});
+            }
+            return Ok(serviceResponse.Data);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<GetTemperatureDTO>>> CreateTemperature(AddTemperatureDTO newTemperature)
         {

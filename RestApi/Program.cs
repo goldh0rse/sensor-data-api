@@ -18,9 +18,7 @@ if (environmentName == "Development")
     {
         EnvLoader.LoadEnvironment(Path.Combine(currentDirectory, @"../.env"));
     }
-
 }
-
 
 // Suppress some default metrics to make the output cleaner, so the exemplars are easier to see.
 // Metrics.SuppressDefaultMetrics(new SuppressDefaultMetricOptions

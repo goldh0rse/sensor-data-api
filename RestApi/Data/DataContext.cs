@@ -11,16 +11,5 @@ namespace RestApi.Data
         {
 
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Temperature>()
-                .Property(t => t.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-            modelBuilder.Entity<Soil>()
-                .Property(m => m.CreatedAt)
-                .HasDefaultValue("CURRENT_TIMESTAMP");
-        }
     }
 }

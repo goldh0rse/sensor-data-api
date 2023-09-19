@@ -39,8 +39,9 @@ namespace RestApi.Controllers
             return Ok(value: result);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<GetSoilDTO>>> GetMoistureById(int id){
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ServiceResponse<GetSoilDTO>>> GetSoilReadingById(int id)
+        {
             ServiceResponse<GetSoilDTO>? result = await _soilService.GetSoilReadingById(id);
             if (!result.Success)
             {
@@ -53,7 +54,21 @@ namespace RestApi.Controllers
             return Ok(value: result);
         }
 
-        public async Task<ActionResult<ServiceResponse<GetSoilDTO>>> AddMoisture(AddSoilDTO newMoisture){
+        [HttpGet("Span")]
+        public async Task<ActionResult<ServiceResponse<List<GetSoilDTO>>>> GetRecordsBetweenDates(
+            [FromQuery] DateTime startDate, 
+            [FromQuery] DateTime endDate)
+        {
+            var serviceResponse = await _soilService.GetSoilReadingByDatetimeSpan(startDate, endDate);
+            if(!serviceResponse.Success){
+                return BadRequest( new { Message = "Bad Request"});
+            }
+            return Ok(serviceResponse.Data);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ServiceResponse<GetSoilDTO>>> AddMoisture(AddSoilDTO newMoisture)
+        {
             ServiceResponse<GetSoilDTO>? result = await _soilService.AddSoilReading(newMoistureLvl: newMoisture);
             if (!result.Success)
             {
@@ -70,6 +85,7 @@ namespace RestApi.Controllers
             return Ok(value: result);
         }
 
+        [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<GetSoilDTO>>> DeleteMoistureById(int id)
         {
             ServiceResponse<GetSoilDTO>? result = await _soilService.DeleteSoilReadingById(id);
