@@ -1,10 +1,8 @@
 using RestApi.DTO.Soil;
 using RestApi.Models;
 
-namespace RestApi.Services.SoilService
-{
-    public interface ISoilService
-    {
+namespace RestApi.Services.SoilService {
+    public interface ISoilService {
         Task<ServiceResponse<List<GetSoilDTO>>> GetAllSoilReadings(
             int page,
             int pageSize,

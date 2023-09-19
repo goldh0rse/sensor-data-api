@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestApi.Models
-{
+namespace RestApi.Models {
     [Table("soil")]
-    public class Soil
-    {
+    public class Soil {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]

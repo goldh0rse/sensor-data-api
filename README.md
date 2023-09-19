@@ -11,5 +11,3 @@ This is the main API stack for the AutoFlower embedded solution.
   - [x] Add Mapping
   - [ ] Create Service Layer
   - [ ] Create Controller Layer
-- [ ] Return primary keys for db entries
-- [ ] Add metrics to prometheus endpoint
