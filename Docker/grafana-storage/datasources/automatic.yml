@@ -1,0 +1,24 @@
+apiVersion: 1
+
+# List of datasources to insert/update depending
+# what's available in the database
+datasources:
+  # <string, required> name of the datasource. Required
+  - name: Prometheus
+    # <string, required> datasource type. Required
+    type: prometheus
+    # <string, required> access mode. proxy/redirect/direct. Required
+    access: proxy
+    # <string> database url, used by direct access modes
+    url: http://prometheus:9090
+    # <string, required> method to use when adding the datasource
+    # Required
+    isDefault: true
+    # <map> fields that will be converted to json and stored in json_data
+    jsonData:
+      # <string> expression datasource for alerting in the frontend
+      timeInterval: "5s"
+    # <string> json object of data that will be encrypted.
+    secureJsonData:
+      # <string> password, if used
+      # password:

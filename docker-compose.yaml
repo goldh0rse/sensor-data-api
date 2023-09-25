@@ -54,7 +54,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - grafana-storage:/etc/grafana/provisioning/datasources
+      - grafana-storage:/etc/grafana/provisioning
     networks:
       - private
 

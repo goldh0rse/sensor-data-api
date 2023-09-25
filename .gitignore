@@ -477,6 +477,6 @@ $RECYCLE.BIN/
 
 # Docker
 Docker/db-storage/*
-Docker/grafana-storage/*
+# Docker/grafana-storage/*
 Docker/prometheus/prometheus-data/*
 Docker/prometheus/prometheus-storage/*
